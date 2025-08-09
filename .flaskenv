@@ -1,0 +1,2 @@
+FLASK_APP=pharm.py
+FLASK_ENV=development

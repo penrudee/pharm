@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="featured-posts">
+        <h2>Featured Stories</h2>
+        <div class="post-grid">
+            {% for post in posts %}
+                <article class="post-card">
+                    <h3><a href="{{ url_for('content', slug=post.slug) }}">{{ post.title }}</a></h3>
+                    <div class="post-excerpt">
+                        {{ post.content_html|safe|truncate(200) }}
+                    </div>
+                    <a href="{{ url_for('content', slug=post.slug) }}" class="read-more">Read more</a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="categories">
+        <h2>Explore</h2>
+        <div class="category-links">
+            {% if post %}
+               {% for p in post %}
+                <!-- countryside -->
+                    {% if len(p.slug=='countryside') > 0 %}
+            <a href="{{ url_for('content', slug='countryside') }}" class="category-link">Countryside</a>
+                    {% else%}
+                <a href="#" class="category-link">Countryside</a>
+                    {% endif %}
+                <!-- durian orchard -->
+                    {% if len(p.slug=='durian-orchard') > 0%}
+            <a href="{{ url_for('content', slug='durian-orchard') }}" class="category-link">Durian Orchard</a>
+                    {% else %}
+                    <a href="#" class="category-link">Durian Orchard</a>
+                    {% endif %}
+                <!-- local-people -->
+                    {% if len(p.slug=='local-people') > 0 %}
+            <a href="{{ url_for('content', slug='local-people') }}" class="category-link">Local People</a>
+                    {% else %}
+                    <a href="#" class="category-link">Local People</a>
+
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

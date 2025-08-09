@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <article class="full-post">
+        <h2>{{ post.title }}</h2>
+        <div class="post-meta">
+            Posted on {{ post.timestamp.strftime('%Y-%m-%d') }}
+        </div>
+        <div class="post-content">
+            {{ post.content_html|safe }}
+        </div>
+    </article>
+{% endblock %}
