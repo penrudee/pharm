@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}{{ post.title }}{% endblock %}
+{% block description %}{{ post.content|striptags|truncate(160) }}{% endblock %}
+
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.content|striptags|truncate(160) }}{% endblock %}
+{% block og_image %}{% if post.image_url %}{{ post.image_url }}{% else %}{{ super() }}{% endif %}{% endblock %}
+
+{% block twitter_title %}{{ post.title }}{% endblock %}
+{% block twitter_description %}{{ post.content|striptags|truncate(160) }}{% endblock %}
+{% block twitter_image %}{% if post.image_url %}{{ post.image_url }}{% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block content %}
     <article class="full-post">

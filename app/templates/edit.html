@@ -44,7 +44,7 @@
 
     <!-- ฟอร์มสำหรับลบโพสต์ (ซ่อนไว้) -->
     <form id="deleteForm" method="POST" action="{{ url_for('delete', id=post.id) }}" style="display: none;">
-       {{form.hidden_tag()}}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     </form>
 
     <script>
