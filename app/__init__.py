@@ -2,18 +2,20 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
 import os
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 db = SQLAlchemy(app)
 login = LoginManager()
-
+csrf = CSRFProtect()
 migrate = Migrate(app, db)
 
 
 # db.init_app(app)
 login.init_app(app)
+csrf.init_app(app)
 login.login_view = 'login'
 
 # from app import routes

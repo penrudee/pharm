@@ -4,13 +4,14 @@ from app.forms import LoginForm, PostForm
 from app.models import User, Post
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
+from datetime import datetime
 import markdown
 
 @app.route('/')
 @app.route('/index')
 def index():
     posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('index.html', title='Home', posts=posts)
+    return render_template('index.html', title='Home', posts=posts, now=datetime.now())
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,7 +35,11 @@ def logout():
 @app.route('/content/<slug>')
 def content(slug):
     post = Post.query.filter_by(slug=slug).first_or_404()
+    # หากโพสต์มีรูปภาพหลัก
+    if post.image_url is None:
+        post.set_og_image('content_images/default_og.jpg')
     return render_template('content.html', post=post)
+    
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit(id):

@@ -24,7 +24,10 @@ class Post(db.Model):
     content_html = db.Column(db.Text)  # Rendered HTML
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    image_url = db.Column(db.String(500))  # สำหรับเก็บ URL รูปภาพหลัก
+    
+    def set_og_image(self, image_path):
+        self.image_url = url_for('static', filename=image_path, _external=True)
     @staticmethod
     def on_changed_content(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
