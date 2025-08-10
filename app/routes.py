@@ -16,7 +16,7 @@ def index():
 @app.route('/category/<category>')
 def category(category):
     posts = Post.query.filter_by(category=category).order_by(Post.timestamp.desc()).all()
-    return render_template('category.html', posts=posts, category=category)
+    return render_template('category.html', posts=posts, category=category, now=datetime.now())
 
 
 @app.route('/login', methods=['GET', 'POST'])
