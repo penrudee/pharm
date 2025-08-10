@@ -39,7 +39,7 @@ def content(slug):
     if post.image_url is None:
         post.set_og_image('content_images/default_og.jpg')
     return render_template('content.html', post=post)
-    
+
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit(id):
@@ -64,7 +64,7 @@ def edit(id):
         form.slug.data = post.slug
         form.content.data = post.content
     
-    return render_template('edit.html', title='Edit Post', form=form, post=post)
+    return render_template('edit.html', title='Edit Post', form=form, post=post,now=datetime.now())
 
 @app.route('/delete/<int:id>', methods=['POST'])
 @login_required
