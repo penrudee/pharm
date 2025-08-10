@@ -17,7 +17,7 @@
                         <a href="{{ url_for('content', slug=post.slug) }}" class="btn btn-sm btn-outline-primary">View</a>
                         <a href="{{ url_for('edit', id=post.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
                         <form method="POST" action="{{ url_for('delete', id=post.id) }}" style="display: inline;">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            {{form.hidden_tag()}}
                             <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </div>
