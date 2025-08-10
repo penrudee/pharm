@@ -25,7 +25,7 @@ def login():
             return redirect(url_for('login'))
         login_user(user)
         return redirect(url_for('index'))
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form,now=datetime.now())
 
 @app.route('/logout')
 def logout():
@@ -94,4 +94,4 @@ def create():
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('index'))
-    return render_template('create.html', title='Create Post', form=form)
+    return render_template('create.html', title='Create Post', form=form,now=datetime.now())
