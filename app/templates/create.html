@@ -3,39 +3,50 @@
 {% block title %}Create New Post{% endblock %}
 
 {% block content %}
-    <h2>Create New Post</h2>
-    <form method="POST" action="{{ url_for('create') }}" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        
-        <div class="form-group">
-            {{ form.title.label }}
-            {{ form.title(class="form-control") }}
-            {% for error in form.title.errors %}
-                <span class="error">{{ error }}</span>
+<h2>Create New Post</h2>
+<form method="POST" action="{{ url_for('create') }}" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        {{ form.title.label }}
+        {{ form.title(class="form-control") }}
+        {% for error in form.title.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.slug.label }}
+        {{ form.slug(class="form-control") }}
+        <small class="form-text">URL-friendly version of the title (e.g., "durian-garden-2023")</small>
+        {% for error in form.slug.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.category.label }}
+        {{ form.category(class="form-control") }}
+        {% if form.category.errors %}
+        <div class="invalid-feedback">
+            {% for error in form.category.errors %}
+            <span>{{ error }}</span>
             {% endfor %}
         </div>
-        
-        <div class="form-group">
-            {{ form.slug.label }}
-            {{ form.slug(class="form-control") }}
-            <small class="form-text">URL-friendly version of the title (e.g., "durian-garden-2023")</small>
-            {% for error in form.slug.errors %}
-                <span class="error">{{ error }}</span>
-            {% endfor %}
-        </div>
-        
-        <div class="form-group">
-            {{ form.content.label }}
-            {{ form.content(class="form-control", rows=15) }}
-            <small class="form-text">You can use <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown</a> for formatting</small>
-            {% for error in form.content.errors %}
-                <span class="error">{{ error }}</span>
-            {% endfor %}
-        </div>
-        
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Publish Post</button>
-            <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.content.label }}
+        {{ form.content(class="form-control", rows=15) }}
+        <small class="form-text">You can use <a href="https://www.markdownguide.org/cheat-sheet/"
+                target="_blank">Markdown</a> for formatting</small>
+        {% for error in form.content.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Publish Post</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
 {% endblock %}
