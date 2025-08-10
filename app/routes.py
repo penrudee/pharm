@@ -38,7 +38,7 @@ def content(slug):
     # หากโพสต์มีรูปภาพหลัก
     if post.image_url is None:
         post.set_og_image('content_images/default_og.jpg')
-    return render_template('content.html', post=post)
+    return render_template('content.html', post=post, now=datetime.now())
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
