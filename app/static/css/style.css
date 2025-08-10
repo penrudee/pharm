@@ -161,7 +161,7 @@ main {
 
 .hero p {
     font-size: 1.2rem;
-    color: var(--light-text);
+    color: var(--primary-light);
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.8;
@@ -288,7 +288,7 @@ main {
 }
 
 .full-post h2 {
-    color: var(--primary-dark);
+    color: var(--secondary-color);
     font-size: 2.5rem;
     font-weight: 300;
     margin-bottom: 1rem;
@@ -396,6 +396,7 @@ main {
     margin: 0;
     font-size: 1.1rem;
     line-height: 1.6;
+    color:var(--primary-light);
 }
 
 .post-content ul,
