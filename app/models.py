@@ -31,7 +31,7 @@ class Post(db.Model):
                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
                        'h1', 'h2', 'h3', 'h4', 'p', 'img']
         target.content_html = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'),
+            markdown.markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
 db.event.listen(Post.content, 'set', Post.on_changed_content)
