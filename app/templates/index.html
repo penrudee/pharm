@@ -1,57 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section class="featured-posts">
-        <h2>Featured Stories</h2>
-        <div class="post-grid">
-            {% for post in posts %}
-                <article class="post-card">
-                    <h3><a href="{{ url_for('content', slug=post.slug) }}">{{ post.title }}</a></h3>
-                    <div class="post-meta">
-                        Posted on {{ post.timestamp.strftime('%Y-%m-%d') }}
-                    </div>
-                    <div class="post-excerpt">
-                        {{ post.content_html|safe|truncate(200) }}
-                    </div>
-                    <div class="post-actions">
-                        <a href="{{ url_for('content', slug=post.slug) }}" class="btn btn-sm btn-outline-primary">View</a>
-                        <a href="{{ url_for('edit', id=post.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                        <form method="POST" action="{{ url_for('delete', id=post.id) }}" style="display: inline;">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
-    </section>
+<section class="featured-posts">
+    <h2>Featured Stories</h2>
+    <div class="post-grid">
+        {% for post in posts %}
+        <article class="post-card">
+            <h3><a href="{{ url_for('content', slug=post.slug) }}">{{ post.title }}</a></h3>
+            <div class="post-meta">
+                Posted on {{ post.timestamp.strftime('%Y-%m-%d') }}
+            </div>
+            <div class="post-excerpt">
+                {{ post.content_html|safe|truncate(200) }}
+            </div>
+            <div class="post-actions">
+                    <a href="{{ url_for('content', slug=post.slug) }}" class="btn btn-sm btn-outline-primary">View</a>
+                    <a href="{{ url_for('edit', id=post.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <form method="POST" action="{{ url_for('delete', id=post.id) }}" class="delete-form">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('Are you sure?')">Delete</button>
+                       
+                </form>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
 
-    <section class="categories">
-        <h2>Explore</h2>
-        <div class="category-links">
-            {% if post %}
-               {% for p in post %}
-                <!-- countryside -->
-                    {% if len(p.slug=='countryside') > 0 %}
-            <a href="{{ url_for('content', slug='countryside') }}" class="category-link">Countryside</a>
-                    {% else%}
-                <a href="#" class="category-link">Countryside</a>
-                    {% endif %}
-                <!-- durian orchard -->
-                    {% if len(p.slug=='durian-orchard') > 0%}
-            <a href="{{ url_for('content', slug='durian-orchard') }}" class="category-link">Durian Orchard</a>
-                    {% else %}
-                    <a href="#" class="category-link">Durian Orchard</a>
-                    {% endif %}
-                <!-- local-people -->
-                    {% if len(p.slug=='local-people') > 0 %}
-            <a href="{{ url_for('content', slug='local-people') }}" class="category-link">Local People</a>
-                    {% else %}
-                    <a href="#" class="category-link">Local People</a>
+<section class="categories">
+    <h2>Explore</h2>
+    <div class="category-links">
+        {% if post %}
+        {% for p in post %}
+        <!-- countryside -->
+        {% if len(p.slug=='countryside') > 0 %}
+        <a href="{{ url_for('content', slug='countryside') }}" class="category-link">Countryside</a>
+        {% else%}
+        <a href="#" class="category-link">Countryside</a>
+        {% endif %}
+        <!-- durian orchard -->
+        {% if len(p.slug=='durian-orchard') > 0%}
+        <a href="{{ url_for('content', slug='durian-orchard') }}" class="category-link">Durian Orchard</a>
+        {% else %}
+        <a href="#" class="category-link">Durian Orchard</a>
+        {% endif %}
+        <!-- local-people -->
+        {% if len(p.slug=='local-people') > 0 %}
+        <a href="{{ url_for('content', slug='local-people') }}" class="category-link">Local People</a>
+        {% else %}
+        <a href="#" class="category-link">Local People</a>
 
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        </div>
-    </section>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+</section>
 {% endblock %}
