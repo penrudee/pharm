@@ -7,10 +7,20 @@
             {% for post in posts %}
                 <article class="post-card">
                     <h3><a href="{{ url_for('content', slug=post.slug) }}">{{ post.title }}</a></h3>
+                    <div class="post-meta">
+                        Posted on {{ post.timestamp.strftime('%Y-%m-%d') }}
+                    </div>
                     <div class="post-excerpt">
                         {{ post.content_html|safe|truncate(200) }}
                     </div>
-                    <a href="{{ url_for('content', slug=post.slug) }}" class="read-more">Read more</a>
+                    <div class="post-actions">
+                        <a href="{{ url_for('content', slug=post.slug) }}" class="btn btn-sm btn-outline-primary">View</a>
+                        <a href="{{ url_for('edit', id=post.id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form method="POST" action="{{ url_for('delete', id=post.id) }}" style="display: inline;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </div>
                 </article>
             {% endfor %}
         </div>

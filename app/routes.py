@@ -1,9 +1,9 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, abort
 from app import app, db
 from app.forms import LoginForm, PostForm
 from app.models import User, Post
 from flask_login import current_user, login_user, logout_user, login_required
-
+from werkzeug.utils import secure_filename
 import markdown
 
 @app.route('/')
@@ -35,7 +35,46 @@ def logout():
 def content(slug):
     post = Post.query.filter_by(slug=slug).first_or_404()
     return render_template('content.html', post=post)
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    post = Post.query.get_or_404(id)
+    
+    # ตรวจสอบว่าเจ้าของโพสต์เท่านั้นที่แก้ไขได้
+    if post.author != current_user:
+        abort(403)
+    
+    form = PostForm()
+    
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.slug = form.slug.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated!', 'success')
+        return redirect(url_for('content', slug=post.slug))
+    
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.slug.data = post.slug
+        form.content.data = post.content
+    
+    return render_template('edit.html', title='Edit Post', form=form, post=post)
 
+@app.route('/delete/<int:id>', methods=['POST'])
+@login_required
+def delete(id):
+    post = Post.query.get_or_404(id)
+    
+    # ตรวจสอบว่าเจ้าของโพสต์เท่านั้นที่ลบได้
+    if post.author != current_user:
+        abort(403)
+    
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('index'))
+    
 @app.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():

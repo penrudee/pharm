@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+    <h2>Edit Post</h2>
+    <form method="POST" action="{{ url_for('edit', id=post.id) }}">
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-control") }}
+            {% for error in form.title.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.slug.label }}
+            {{ form.slug(class="form-control") }}
+            <small class="form-text">URL-friendly version of the title</small>
+            {% for error in form.slug.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.content.label }}
+            {{ form.content(class="form-control", rows=15) }}
+            <small class="form-text">You can use <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown</a> for formatting</small>
+            {% for error in form.content.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update Post</button>
+            <a href="{{ url_for('content', slug=post.slug) }}" class="btn btn-secondary">Cancel</a>
+            
+            <!-- ปุ่มลบ -->
+            <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete Post</button>
+        </div>
+    </form>
+
+    <!-- ฟอร์มสำหรับลบโพสต์ (ซ่อนไว้) -->
+    <form id="deleteForm" method="POST" action="{{ url_for('delete', id=post.id) }}" style="display: none;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    </form>
+
+    <script>
+        function confirmDelete() {
+            if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+                document.getElementById('deleteForm').submit();
+            }
+        }
+    </script>
+{% endblock %}
